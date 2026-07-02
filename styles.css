@@ -81,6 +81,7 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.06) inset,
     0 20px 50px rgba(0, 0, 0, 0.55),
     0 0 60px rgba(255, 209, 102, 0.06);
+  width: min(388px, 100%);
 }
 
 .cabinet-header {
@@ -113,7 +114,8 @@ body {
   display: block;
   border-radius: 12px;
   width: 360px;
-  height: 540px;
+  max-width: 100%;
+  aspect-ratio: 2 / 3;
   background: linear-gradient(var(--sky-top), var(--sky-bottom));
   touch-action: none;
   cursor: pointer;
@@ -316,7 +318,7 @@ button.secondary:active { box-shadow: 0 1px 0 #145a41; }
 /* ── Leaderboard panel ──────────────────────────────────────────────── */
 
 .board {
-  width: 280px;
+  width: 320px;
   background: linear-gradient(180deg, var(--panel-bg-2), var(--panel-bg));
   border-radius: 18px;
   padding: 18px 16px 20px;
@@ -441,7 +443,16 @@ button.secondary:active { box-shadow: 0 1px 0 #145a41; }
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
 
-@media (max-width: 720px) {
+@media (max-width: 780px) {
   .app   { flex-direction: column; align-items: center; }
-  .board { width: 100%; max-width: 360px; }
+  .board { width: 100%; max-width: 420px; }
+  .cabinet { width: 100%; max-width: 420px; }
+}
+
+@media (max-width: 420px) {
+  body  { padding: 12px 8px; }
+  .board { max-width: 100%; }
+  .cabinet { max-width: 100%; }
+  .overlay { inset: 10% 4% 7%; }
+  .overlay.overlay-wide { inset: 4% 3% 4%; }
 }
