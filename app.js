@@ -290,7 +290,7 @@
     }
 
     setRefreshState(true);
-    boardList.innerHTML = '<div class="board-empty">loading…</div>';
+    // Do NOT clear the board here — keep showing current entries while fetching
 
     try {
       const entries = await db.leaderboard();
