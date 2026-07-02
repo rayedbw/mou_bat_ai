@@ -710,7 +710,7 @@
     }
 
     refreshLeaderboard();   // load board in background (non-blocking)
-    setInterval(refreshLeaderboard, 2000); // auto-refresh every 2 s
+    setInterval(refreshLeaderboard, 5000); // auto-refresh every 5 s
     loop();                 // start render loop
   }
 
