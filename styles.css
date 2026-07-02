@@ -1,0 +1,447 @@
+* { box-sizing: border-box; }
+
+:root {
+  --sky-top:      #2b1055;
+  --sky-bottom:   #7597de;
+  --panel-bg:     #1a1030;
+  --panel-bg-2:   #241645;
+  --ink:          #ede6da;
+  --ink-dim:      #b6acd6;
+  --coral:        #ff6b6b;
+  --gold:         #ffd166;
+  --teal:         #3ddc97;
+  --teal-dark:    #1f7a5c;
+  --display-font: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  --body-font:    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Global hidden utility ──────────────────────────────────────────── */
+
+.hidden { display: none !important; }
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #3a1f6b 0%, #0f0821 65%, #070512 100%);
+  font-family: var(--body-font);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  gap: 0;
+}
+
+.app {
+  width: 100%;
+  max-width: 920px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* ── Setup banner ───────────────────────────────────────────────────── */
+
+.setup-banner {
+  width: 100%;
+  max-width: 920px;
+  background: #5a0e1a;
+  border: 1px solid #a63438;
+  border-radius: 10px;
+  color: #f0dfa0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 10px 16px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.setup-banner code {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  font-family: var(--display-font);
+  font-size: 11px;
+  padding: 1px 5px;
+}
+
+/* ── Cabinet ────────────────────────────────────────────────────────── */
+
+.cabinet {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-bg-2), var(--panel-bg));
+  border-radius: 22px;
+  padding: 14px 14px 18px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(255, 209, 102, 0.06);
+}
+
+.cabinet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 12px;
+}
+
+.title {
+  font-family: var(--display-font);
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(255, 209, 102, 0.5);
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+/* ── Canvas ─────────────────────────────────────────────────────────── */
+
+.canvas-shell { position: relative; }
+
+#gameCanvas {
+  display: block;
+  border-radius: 12px;
+  width: 360px;
+  height: 540px;
+  background: linear-gradient(var(--sky-top), var(--sky-bottom));
+  touch-action: none;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-dim);
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.hint kbd {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--body-font);
+}
+
+/* ── Overlays ───────────────────────────────────────────────────────── */
+
+.overlay {
+  position: absolute;
+  inset: 60px 14px 40px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 24px 18px;
+  background: rgba(10, 6, 24, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.overlay.hidden { display: none; }
+
+.overlay h2 {
+  font-family: var(--display-font);
+  font-size: 15px;
+  color: var(--gold);
+  margin: 0 0 4px;
+  line-height: 1.6;
+}
+
+.overlay p {
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin: 0;
+  max-width: 260px;
+  font-weight: 700;
+}
+
+.overlay.overlay-wide {
+  inset: 24px 10px 24px;
+  justify-content: flex-start;
+  padding-top: 22px;
+  gap: 10px;
+}
+
+.big-score {
+  font-family: var(--display-font);
+  font-size: 34px;
+  color: var(--ink);
+  margin: 6px 0;
+}
+
+/* ── Inputs ─────────────────────────────────────────────────────────── */
+
+input[type="text"] {
+  font-family: var(--body-font);
+  font-weight: 800;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid var(--teal-dark);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+  outline: none;
+}
+
+input[type="text"]::placeholder { color: var(--ink-dim); }
+input[type="text"]:focus        { border-color: var(--teal); }
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+
+button {
+  font-family: var(--display-font);
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 20px;
+  background: linear-gradient(180deg, var(--coral), #e8494f);
+  color: #2a0e0e;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #a63438, 0 8px 16px rgba(0, 0, 0, 0.35);
+  transition: transform 0.05s ease;
+}
+
+button:active { transform: translateY(3px); box-shadow: 0 1px 0 #a63438; }
+
+button.secondary {
+  background: linear-gradient(180deg, var(--teal), var(--teal-dark));
+  box-shadow: 0 4px 0 #145a41, 0 8px 16px rgba(0, 0, 0, 0.35);
+  color: #082418;
+}
+
+button.secondary:active { box-shadow: 0 1px 0 #145a41; }
+
+/* ── Facts panel (inside overlays) ─────────────────────────────────── */
+
+.facts-panel {
+  width: 100%;
+  max-width: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 10px;
+  padding: 10px 10px 4px;
+  text-align: left;
+}
+
+.facts-title {
+  font-family: var(--display-font);
+  font-size: 9px;
+  color: #d9ae3f;
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.facts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 2px 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.facts-list li {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.facts-list .yr {
+  font-family: var(--display-font);
+  font-size: 9px;
+  color: #d9ae3f;
+  margin-right: 5px;
+}
+
+.facts-empty {
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-align: center;
+  padding: 6px 0 10px;
+  font-weight: 700;
+}
+
+/* ── Milestone banner (in-canvas) ───────────────────────────────────── */
+
+.milestone-banner {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 14px;
+  background: rgba(20, 10, 10, 0.78);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.4;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.milestone-banner .yr {
+  font-family: var(--display-font);
+  font-size: 11px;
+  color: #d9ae3f;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.milestone-banner.hidden { opacity: 0; transform: translateY(-6px); }
+
+/* ── Leaderboard panel ──────────────────────────────────────────────── */
+
+.board {
+  width: 280px;
+  background: linear-gradient(180deg, var(--panel-bg-2), var(--panel-bg));
+  border-radius: 18px;
+  padding: 18px 16px 20px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.board-header h3 {
+  font-family: var(--display-font);
+  font-size: 12px;
+  color: var(--gold);
+  margin: 0;
+}
+
+/* Small icon-style refresh button */
+.refresh-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  box-shadow: none;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 3px 8px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--ink);
+}
+
+.refresh-btn:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+/* Override the general button active style for this one */
+.refresh-btn:active { transform: none; box-shadow: none; }
+
+.board-sub {
+  font-size: 11px;
+  color: var(--ink-dim);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* ── Leaderboard list ───────────────────────────────────────────────── */
+
+.board-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 60px;
+}
+
+.board-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  font-weight: 800;
+  font-size: 13px;
+  transition: background 0.12s;
+}
+
+.board-list li:hover { background: rgba(255, 255, 255, 0.08); }
+
+.board-list li.me {
+  background: rgba(61, 220, 151, 0.14);
+  box-shadow: 0 0 0 1px rgba(61, 220, 151, 0.4) inset;
+}
+
+.rank {
+  font-family: var(--display-font);
+  font-size: 10px;
+  color: var(--ink-dim);
+  width: 22px;
+  flex-shrink: 0;
+}
+
+.rank.gold   { color: #ffd166; }
+.rank.silver { color: #d9d9e3; }
+.rank.bronze { color: #e0a06b; }
+
+.lb-name  { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.lb-score { color: var(--gold); font-family: var(--display-font); font-size: 12px; }
+
+.board-empty,
+.board-error {
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-align: center;
+  padding: 16px 4px;
+  font-weight: 700;
+}
+
+.board-error { color: #ff8fa3; }
+
+.board-footer {
+  margin-top: 14px;
+  font-size: 10px;
+  color: var(--ink-dim);
+  text-align: center;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 720px) {
+  .app   { flex-direction: column; align-items: center; }
+  .board { width: 100%; max-width: 360px; }
+}

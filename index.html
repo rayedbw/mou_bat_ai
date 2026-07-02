@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BAT Milestones</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Shown only when SUPABASE_URL / SUPABASE_KEY are still placeholders -->
+<div id="setupBanner" class="setup-banner hidden">
+  ⚠ Supabase not configured — open <code>app.js</code> and fill in
+  <code>SUPABASE_URL</code> and <code>SUPABASE_KEY</code>, then run the SQL in the file header.
+</div>
+
+<div class="app">
+
+  <!-- ── GAME CABINET ─────────────────────────────────────── -->
+  <div class="cabinet">
+    <div class="cabinet-header">
+      <div>
+        <div class="title">BAT MILESTONES</div>
+        <div class="subtitle">fly through 120+ years of company history</div>
+      </div>
+    </div>
+
+    <div class="canvas-shell">
+      <canvas id="gameCanvas" width="360" height="540"></canvas>
+      <div id="milestoneBanner" class="milestone-banner hidden"></div>
+
+      <!-- Name entry (new users only) -->
+      <div id="nameOverlay" class="overlay">
+        <h2>WELCOME, FLYER</h2>
+        <p>Pick a name for the leaderboard.<br>Everyone with this link will see it.</p>
+        <input type="text" id="nameInput" maxlength="16" placeholder="Your name"
+               autocomplete="off" spellcheck="false">
+        <button id="nameSubmit">Let's fly</button>
+      </div>
+
+      <!-- Ready screen -->
+      <div id="startOverlay" class="overlay hidden">
+        <h2 id="greeting">READY?</h2>
+        <p>Tap, click, or press space to flap.<br>Thread the gap between each milestone marker.</p>
+        <button id="startBtn">Start</button>
+      </div>
+
+      <!-- Game over -->
+      <div id="overOverlay" class="overlay overlay-wide hidden">
+        <h2>GAME OVER</h2>
+        <div class="big-score" id="finalScore">0</div>
+        <p id="overNote"></p>
+        <div class="facts-panel">
+          <div class="facts-title">FACTS YOU UNCOVERED</div>
+          <ul class="facts-list" id="factsList"></ul>
+        </div>
+        <button id="retryBtn">Fly again</button>
+      </div>
+
+      <!-- Player facts view -->
+      <div id="factsOverlay" class="overlay overlay-wide hidden">
+        <h2 id="factsTitle">FACTS DISCOVERED</h2>
+        <div class="facts-panel">
+          <ul class="facts-list" id="viewFactsList"></ul>
+        </div>
+        <button id="closeFactsBtn" class="secondary">Back</button>
+      </div>
+    </div>
+
+    <div class="hint">tap / click / <kbd>space</kbd> to flap</div>
+  </div>
+
+  <!-- ── LEADERBOARD ──────────────────────────────────────── -->
+  <div class="board">
+    <div class="board-header">
+      <h3>TOP FLYERS</h3>
+      <button id="refreshBtn" class="refresh-btn" title="Refresh leaderboard">↺</button>
+    </div>
+    <div class="board-sub">
+      best score per player &middot; updated <span id="lastUpdated">—</span>
+    </div>
+    <ul class="board-list" id="boardList"></ul>
+    <div class="board-footer">click any player to view their discovered facts</div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
